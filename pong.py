@@ -1,4 +1,3 @@
-# https://www.geeksforgeeks.org/create-a-pong-game-in-python-pygame/
 import pygame
 
 pygame.init()
@@ -12,7 +11,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 
 # Basic parameters of the screen
-WIDTH, HEIGHT = 900, 600
+WIDTH, HEIGHT = 900, 800
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pong")
 
