@@ -1,6 +1,10 @@
 import pygame
 import stuff
 
+pygame.mixer.pre_init(22100, -16, 2, 64)
+
+pygame.mixer.init()
+ballGotHit = pygame.mixer.Sound("pongHit.ogg")
 pygame.init()
 
 # Font that is used to render the text
@@ -104,6 +108,7 @@ class Ball:
     # Used to reflect the ball along the X-axis
     def hit(self):
         self.xFac *= -1
+        ballGotHit.play()
 
     def getRect(self):
         return self.ball
@@ -114,7 +119,8 @@ class Ball:
 
 def main():
     running = True
-
+    tipCounter = 0
+    pointsLog = 0
     # Defining the objects
     geek1 = Striker(20, 0, 10, 100, 10, stuff.GREEN)
     geek2 = Striker(stuff.WIDTH - 30, 0, 10, 100, 10, stuff.GREEN)
@@ -153,6 +159,7 @@ def main():
         for geek in listOfGeeks:
             if pygame.Rect.colliderect(ball.getRect(), geek.getRect()):
                 ball.hit()
+                ballGotHit.play()
 
         # Updating the objects
         geek1.update(geek1YFac)
@@ -163,13 +170,12 @@ def main():
         # +1 -> Geek_2 has scored
         # 0 -> None of them scored
         if point == -1:
+            pointsLog = pointsLog + 1
             geek1Score += 1
-        elif point == 1:
-            geek2Score += 1
 
-        if geek1Score | geek2Score >= 3:
-            stuff.TETRIS_LOCK = 0
-            print("TIME FOR A TIP/UNLIFT LOCK")
+        elif point == 1:
+            pointsLog = pointsLog + 1
+            geek2Score += 1
 
         # Someone has scored
         # a point and the ball is out of bounds.
@@ -181,10 +187,33 @@ def main():
         geek1.display()
         geek2.display()
         ball.display()
+        # if tipCounter <= 3 & pointsLog == 3:
+        # print(stuff.gamesLore["pong"][tipCounter])
 
         # Displaying the scores of the players
-        geek1.displayScore("Geek_1 : ", geek1Score, 100, 20, stuff.WHITE)
-        geek2.displayScore("Geek_2 : ", geek2Score, stuff.WIDTH - 100, 20, stuff.WHITE)
+        geek1.displayScore("Player 1 : ", geek1Score, 100, 20, stuff.WHITE)
+        geek2.displayScore(
+            "Player 2 : ", geek2Score, stuff.WIDTH - 100, 20, stuff.WHITE
+        )
+        print(f"POINT LOG{pointsLog}  COUNTER{tipCounter}")
+        if pointsLog >= 3 and tipCounter + 1 <= 7:
+            geek1.displayScore(
+                stuff.gamesLore["pong"][tipCounter],
+                "",
+                stuff.WIDTH - 400,
+                stuff.HEIGHT - 100,
+                stuff.WHITE,
+            )
+            geek1.displayScore(
+                stuff.gamesLore["pong"][tipCounter + 1],
+                "",
+                stuff.WIDTH - 400,
+                stuff.HEIGHT - 80,
+                stuff.WHITE,
+            )
+        if pointsLog > 4:
+            pointsLog = 0
+            tipCounter = tipCounter + 2
 
         pygame.display.update()
         clock.tick(FPS)

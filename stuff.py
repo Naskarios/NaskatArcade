@@ -1,6 +1,5 @@
 import pygame
 import sys
-import math
 import pong
 
 
@@ -8,10 +7,6 @@ import pong
 WIDTH, HEIGHT = 900, 800
 SNAKE_LOCK = 1
 TETRIS_LOCK = 1
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("ARCADE")
-
-gamesList = ["Pong", "Tetris", "Space Invaders", "Asteroids", "Snake", "2048?", "Quit"]
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -19,6 +14,28 @@ PINK = (255, 0, 212)
 FUSCHIA = (255, 77, 225)
 CYAN = (0, 255, 255)
 GREEN = (0, 255, 0)
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("ARCADE")
+# INFO
+gamesList = ["Pong", "Tetris", "Space Invaders", "Asteroids", "Snake", "2048?", "Quit"]
+gamesLore = {
+    "pong": [
+        "Pong was the first game developed by Atari",
+        'created by Allan Alcorn as a "a kind of warm-up exercise"',
+        'Pong was "low-budget to the point of being a one-man operation",',
+        " said the New York Post, and Alcorn took two months to create it.",
+        'Atari sold thousands of Pong consoles, "the success of pong" saw the company "scrambling to staff up"',
+        ' In 1973 Atari hired Steve Jobs,he was "asking for a job".',
+        '"The most boring video game of all time", said IEEE, but 50 years',
+        " since its release, gamers are still drawn to its “nostalgia”.",
+    ]
+}
+
+# print(gamesLore["pong"][0])
+
+
+# def audioService(gameslist):
+#     pass
 
 
 def menuSelectEventLoop(menu, font, screen):
